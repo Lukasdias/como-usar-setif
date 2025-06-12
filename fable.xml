@@ -1,10 +1,296 @@
 <fable>
-  <config font-family="Schoolbell" />
+  <config font-family="Poppins" />
 
+  <!-- Propriedades para testar setIf -->
   <property name="pontuacao" default="0" />
-  <property name="visitante" default="Aventureiro" />
+  <property name="nivel" default="1" />
+  <property name="vida" default="100" />
+  <property name="moedas" default="50" />
+  <property name="status" default="iniciante" />
+  <property name="bonus_ativo" default="false" />
+  <property name="mensagem" default="Bem-vindo!" />
 
-  <start />
-  <middle />
-  <ending />
+  <page id="teste_setif" bg_color="#e3f2fd">
+    <!-- Título -->
+    <agent
+      id="titulo"
+      x="center"
+      y="30"
+      text="🧪 Teste da Função setIf()"
+      color="#1565c0"
+      font-size="24"
+    />
+
+    <agent
+      id="instrucoes"
+      x="center"
+      y="70"
+      text="Teste condições para ativar diferentes efeitos automáticos"
+      color="#424242"
+      font-size="14"
+    />
+
+    <!-- Display de Status -->
+    <agent
+      id="status-pontos"
+      x="50"
+      y="120"
+      text="Pontuação: $pontuacao"
+      color="#2e7d32"
+      font-size="16"
+    />
+
+    <agent
+      id="status-nivel"
+      x="200"
+      y="120"
+      text="Nível: $nivel ($status)"
+      color="#2e7d32"
+      font-size="16"
+    />
+
+    <agent
+      id="status-vida"
+      x="400"
+      y="120"
+      text="Vida: $vida%"
+      color="#2e7d32"
+      font-size="16"
+    />
+
+    <agent
+      id="status-moedas"
+      x="550"
+      y="120"
+      text="Moedas: $moedas"
+      color="#2e7d32"
+      font-size="16"
+    />
+
+    <agent
+      id="status-bonus"
+      x="700"
+      y="120"
+      text="Bônus: $bonus_ativo"
+      color="#2e7d32"
+      font-size="16"
+    />
+
+    <!-- Área de Mensagem -->
+    <agent
+      id="display-mensagem"
+      x="center"
+      y="160"
+      text="📢 $mensagem"
+      color="#e65100"
+      font-size="18"
+    />
+
+    <!-- === SEÇÃO 1: TESTE DE PONTUAÇÃO === -->
+    <agent
+      id="secao1-titulo"
+      x="50"
+      y="220"
+      text="🎯 TESTE: Pontuação e Níveis"
+      color="#1976d2"
+      font-size="18"
+    />
+
+    <!-- Botão que testa setIf com pontuação -->
+    <agent
+      id="btn-ganhar-pontos"
+      x="50"
+      y="260"
+      text="Ganhar 25 Pontos"
+      bg_color="#4caf50"
+      color="white"
+      width="150"
+      height="40"
+      animation="hover-grow click-bounce"
+      on_click="set(pontuacao, $pontuacao + 25); 
+                     setIf($pontuacao >= 100, nivel, 2);
+                     setIf($pontuacao >= 200, nivel, 3);
+                     setIf($pontuacao >= 100, status, 'intermediário');
+                     setIf($pontuacao >= 200, status, 'avançado');
+                     setIf($pontuacao >= 150, bonus_ativo, 'true');
+                     setIf($pontuacao >= 100, mensagem, 'Parabéns! Nível aumentado!')"
+    />
+
+    <!-- === SEÇÃO 2: TESTE DE VIDA === -->
+    <agent
+      id="secao2-titulo"
+      x="250"
+      y="220"
+      text="❤️ TESTE: Sistema de Vida"
+      color="#1976d2"
+      font-size="18"
+    />
+
+    <agent
+      id="btn-perder-vida"
+      x="250"
+      y="260"
+      text="Perder 30 Vida"
+      bg_color="#f44336"
+      color="white"
+      width="130"
+      height="40"
+      animation="hover-grow click-bounce"
+      on_click="set(vida, $vida - 30); 
+                     setIf($vida <= 50, mensagem, '⚠️ Vida baixa! Cuidado!');
+                     setIf($vida <= 20, mensagem, '🚨 PERIGO! Vida crítica!');
+                     setIf($vida <= 0, vida, 0);
+                     setIf($vida <= 0, mensagem, '💀 Game Over!');"
+    />
+
+    <agent
+      id="btn-recuperar-vida"
+      x="400"
+      y="260"
+      text="Recuperar Vida"
+      bg_color="#2196f3"
+      color="white"
+      width="130"
+      height="40"
+      animation="hover-grow click-bounce"
+      on_click="set(vida, $vida + 40); 
+                     setIf($vida > 100, vida, 100);
+                     setIf($vida >= 80, mensagem, '✨ Vida restaurada!');
+                     setIf($vida = 100, mensagem, '💚 Vida máxima!');"
+    />
+
+    <!-- === SEÇÃO 3: TESTE DE MOEDAS === -->
+    <agent
+      id="secao3-titulo"
+      x="50"
+      y="340"
+      text="💰 TESTE: Sistema de Moedas"
+      color="#1976d2"
+      font-size="18"
+    />
+
+    <agent
+      id="btn-comprar"
+      x="50"
+      y="380"
+      text="Comprar (20 moedas)"
+      bg_color="#ff9800"
+      color="white"
+      width="160"
+      height="40"
+      animation="hover-grow click-bounce"
+      on_click="setIf($moedas >= 20, moedas, $moedas - 20);
+                     setIf($moedas >= 20, mensagem, '🛒 Item comprado!');
+                     setIf($moedas < 20, mensagem, '❌ Moedas insuficientes!');"
+    />
+
+    <agent
+      id="btn-ganhar-moedas"
+      x="230"
+      y="380"
+      text="Encontrar Moedas"
+      bg_color="#4caf50"
+      color="white"
+      width="140"
+      height="40"
+      animation="hover-grow click-bounce"
+      on_click="set(moedas, $moedas + 30); 
+                     setIf($moedas >= 100, mensagem, '💎 Rico! Mais de 100 moedas!');
+                     setIf($moedas < 100, mensagem, '💰 +30 moedas encontradas!');"
+    />
+
+    <!-- === SEÇÃO 4: TESTE DE CONDIÇÕES COMPLEXAS === -->
+    <agent
+      id="secao4-titulo"
+      x="400"
+      y="340"
+      text="🧠 TESTE: Condições Complexas"
+      color="#1976d2"
+      font-size="18"
+    />
+
+    <agent
+      id="btn-super-bonus"
+      x="400"
+      y="380"
+      text="Super Bônus"
+      bg_color="#9c27b0"
+      color="white"
+      width="120"
+      height="40"
+      animation="hover-grow click-bounce"
+      on_click="setIf($pontuacao >= 150 and $vida >= 80, pontuacao, $pontuacao + 100);
+                     setIf($pontuacao >= 150 and $vida >= 80, mensagem, '⭐ SUPER BÔNUS ATIVADO!');
+                     setIf($pontuacao < 150 or $vida < 80, mensagem, '❌ Precisa de 150+ pts e 80+ vida');"
+    />
+
+    <agent
+      id="btn-reset-parcial"
+      x="540"
+      y="380"
+      text="Reset Valores"
+      bg_color="#607d8b"
+      color="white"
+      width="120"
+      height="40"
+      animation="hover-grow click-bounce"
+      on_click="setIf($pontuacao > 0 or $vida < 100, vida, 100);
+                     setIf($pontuacao > 0 or $vida < 100, moedas, 50);
+                     setIf($pontuacao > 0 or $vida < 100, bonus_ativo, 'false');
+                     setIf($pontuacao > 0 or $vida < 100, mensagem, '🔄 Valores resetados!');"
+    />
+
+    <!-- === SEÇÃO 5: TESTE DE STRINGS === -->
+    <agent
+      id="secao5-titulo"
+      x="50"
+      y="460"
+      text="📝 TESTE: Condições com Strings"
+      color="#1976d2"
+      font-size="18"
+    />
+
+    <agent
+      id="btn-mudar-status"
+      x="50"
+      y="500"
+      text="Ciclar Status"
+      bg_color="#3f51b5"
+      color="white"
+      width="130"
+      height="40"
+      animation="hover-grow click-bounce"
+      on_click="setIf($status = 'iniciante', status, 'intermediário');
+                     setIf($status = 'intermediário', status, 'avançado'); 
+                     setIf($status = 'avançado', status, 'mestre');
+                     setIf($status = 'mestre', status, 'iniciante');
+                     setIf($status = 'mestre', mensagem, '👑 Status: Mestre Alcançado!');
+                     setIf($status != 'mestre', mensagem, 'Status alterado para: $status');"
+    />
+
+    <agent
+      id="btn-bonus-especial"
+      x="200"
+      y="500"
+      text="Bônus Especial"
+      bg_color="#e91e63"
+      color="white"
+      width="140"
+      height="40"
+      animation="hover-grow click-bounce"
+      on_click="setIf($bonus_ativo = 'true', pontuacao, $pontuacao + 50);
+                     setIf($bonus_ativo = 'true', mensagem, '🎉 Bônus especial aplicado!');
+                     setIf($bonus_ativo = 'false', mensagem, '❌ Bônus não está ativo');"
+    />
+
+    <!-- Rodapé -->
+    <agent
+      id="info"
+      x="center"
+      y="570"
+      text="💡 A função setIf() só executa a ação se a condição for verdadeira"
+      color="#666666"
+      font-size="12"
+    />
+  </page>
 </fable>
