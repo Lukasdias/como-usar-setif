@@ -179,10 +179,7 @@
       width="160"
       height="40"
       animation="hover-grow click-bounce"
-      on_click="setIf($moedas >= 20, moedas, $moedas - 20);
-                     setIf($moedas >= 20, mensagem, '🛒 Item comprado!');
-                     setIf($moedas < 20, mensagem, '❌ Moedas insuficientes!');"
-    />
+      on_click="setIf($moedas >= 20, moedas, $moedas - 20);setIf($moedas >= 20, mensagem, '🛒 Item comprado!');setIf($moedas < 20, mensagem, '❌ Moedas insuficientes!');"/>
 
     <agent
       id="btn-ganhar-moedas"
